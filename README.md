@@ -4,9 +4,14 @@ BUILT WHILE READING CODECADEMY-WRITTEN CODE
 	"l e a r n e x p r e s s   r o u t e s"
 	  Lesson 3 of 15
 
-	  Requires Express.js, the common backend javascript thingie
-	  If you need to install Express.js, this worked for me in Bash terminal:
+	  This server requires Express.js, the common backend javascript thingie
+
+	  If you need to install Express.js, the following command worked for me in Bash terminal:
+
 	  npm install express --save
 
-	  Dec 19, 2017: I'm keeping this as a server playpen and so I can 
-	  retrieve syntax from it after the course is finished.
+	  To run this server, I start it in the terminal using NODE:
+	  	node moods.js
+	  And then in a browser window typing:
+	  	localhost:3000 or whatever port on which the node tells me it is listening
+
