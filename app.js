@@ -25,21 +25,27 @@
 
 const express = require('express');
 const app = express();
+/* include Express.    Create the uber-object */
 
-// Serves Express Yourself website
-app.use(express.static('public'));
+// SEEMS REDUNDANT app.use(express.static('public'));
+/* Serve the Express-Yourself website */
 
 const { getElementById, getIndexById, updateElement,
         seedElements, createElement } = require('./utils');
+/* include the five seed commands. */
+/*  QUESTION: Must this go after the static line?*/
 
 const expressions = [];
 seedElements(expressions, 'expressions');
 const animals = [];
 seedElements(animals, 'animals');
+/* Make two empty arrays for animals and expressions.  */
+
 
 const PORT = process.env.PORT || 4001;
-// Use static server to serve the Express Yourself Website
 app.use(express.static('public'));
+// USE THE APP YOU MADE.   Use static server to serve the Express Yourself Website
+
 
 app.get('/expressions', (req, res, next) => {
   res.send(expressions);
@@ -84,6 +90,52 @@ app.delete('/expressions/:id', (req, res, next) => {
   }
 });
 
+app.get('/animals', (req, res, next) => {
+  res.send(animals);
+} )
+
+app.get('/animals/:id', function (req, res, next) {
+  const foundAnimal = getElementById(request.params.id, animals);
+  if (foundAnimal){
+    res.send(foundAnimal);
+  } else {
+    res.status(404).send();
+  }
+} )
+
+app.put('/animals/:id', (req, res, next)=> {
+  /* "PUT" IS TO CHANGE AN EXISTING, LIKE A PUTTING GREEN  */
+  const foundIndex = getIndexById(req.params.id, animals);
+  if (foundIndex !== -1) {
+    updateElement(req.params.id, req.query, animals);
+    res.send(animals[foundIndex]);
+  } else { 
+    res.status(404).send(); 
+
+  }
+} )
+
+app.post('/animals', function(req, res, next) {
+  /* "POST" IS TO CRAM A NEW THING, LIKE POST-MODERN CRAMS ONTO MODERN */
+  const justBorn = createElement('animals', req.query);
+  if (justBorn) {
+    expressions.push(justBorn);
+    res.status(201).send(justBorn);
+  } else {
+    res.status(400).send();
+  }
+} )
+
+app.delete('/delete/:id', (req, res, next)=> {
+  const foundIndex = getIndexById(req.params.id, animals);
+  if (foundIndex !== -1) {
+    expressions.splice(foundIndex, 1);
+    res.status(204).send();
+  } else {
+      res.status(404).send();
+  }
+} )
+
 app.listen(PORT, () => {
   console.log(`Listening on port ${PORT}`); 
 });
@@ -91,6 +143,7 @@ app.listen(PORT, () => {
 
 /*
           I   N   S   T   R   U  C   T   I   O   N   S    
+  to do: goof proof each ! ! 
 1.
 In your app.js file, Create a GET /animals route to return an array of all animals.
 2.
